@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML URL Generator Suite</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      font-family: monospace;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    a {
+      display: block;
+      margin-top: 10px;
+      word-break: break-all;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    .dark-mode textarea,
+    .dark-mode input,
+    .dark-mode button {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+      border: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>HTML URL Generator Suite</h1>
+
+  <button onclick="toggleTheme()">Toggle Dark/Light Mode</button>
+
+  <textarea id="htmlInput" placeholder="Enter your HTML code here..."></textarea>
+
+  <button onclick="generateBlob()">Generate Blob URL</button>
+  <input type="text" id="blobUrl" readonly placeholder="Blob URL">
+  <a id="openBlob" href="#" target="_blank" style="display:none;">Open Blob</a>
+
+  <button onclick="generateDataURL()">Generate URI Data URL</button>
+  <input type="text" id="dataUrl" readonly placeholder="URI Data URL">
+  <a id="openData" href="#" target="_blank" style="display:none;">Open Data URI</a>
+
+  <button onclick="generateBase64DataURL()">Generate Base64 Data URL</button>
+  <input type="text" id="base64Url" readonly placeholder="Base64 Data URL">
+  <a id="openBase64" href="#" target="_blank" style="display:none;">Open Base64 URL</a>
+
+  <button onclick="generateDownloadLink()">Generate .html Download Link</button>
+  <a id="downloadLink" href="#" download="generated.html" style="display:none;">Download HTML File</a>
+
+  <button onclick="generateJSInjection()">Generate JavaScript URL</button>
+  <input type="text" id="jsUrl" readonly placeholder="JavaScript URL">
+  <a id="openJS" href="#" target="_blank" style="display:none;">Run JavaScript URL</a>
+
+  <button onclick="generateIframeEmbed()">Generate iframe Embed Code</button>
+  <textarea id="iframeCode" readonly placeholder="iframe embed code will appear here..."></textarea>
+
+  <script>
+    function generateBlob() {
+      const html = document.getElementById('htmlInput').value;
+      const blob = new Blob([html], { type: 'text/html' });
+      const blobUrl = URL.createObjectURL(blob);
+      document.getElementById('blobUrl').value = blobUrl;
+      const link = document.getElementById('openBlob');
+      link.href = blobUrl;
+      link.style.display = 'block';
+    }
+
+    function generateDataURL() {
+      const html = document.getElementById('htmlInput').value;
+      const encodedHtml = encodeURIComponent(html).replace(/'/g, "%27").replace(/"/g, "%22");
+      const dataUrl = `data:text/html;charset=utf-8,${encodedHtml}`;
+      document.getElementById('dataUrl').value = dataUrl;
+      const link = document.getElementById('openData');
+      link.href = dataUrl;
+      link.style.display = 'block';
+    }
+
+    function generateBase64DataURL() {
+      const html = document.getElementById('htmlInput').value;
+      const base64 = btoa(unescape(encodeURIComponent(html)));
+      const base64Url = `data:text/html;base64,${base64}`;
+      document.getElementById('base64Url').value = base64Url;
+      const link = document.getElementById('openBase64');
+      link.href = base64Url;
+      link.style.display = 'block';
+    }
+
+    function generateDownloadLink() {
+      const html = document.getElementById('htmlInput').value;
+      const blob = new Blob([html], { type: 'text/html' });
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.getElementById('downloadLink');
+      link.href = downloadUrl;
+      link.style.display = 'block';
+    }
+
+    function generateJSInjection() {
+      const html = document.getElementById('htmlInput').value;
+      const encoded = encodeURIComponent(html);
+      const jsUrl = `javascript:document.write(decodeURIComponent('${encoded}'))`;
+      document.getElementById('jsUrl').value = jsUrl;
+      const link = document.getElementById('openJS');
+      link.href = jsUrl;
+      link.style.display = 'block';
+    }
+
+    function generateIframeEmbed() {
+      const html = document.getElementById('htmlInput').value;
+      const encoded = encodeURIComponent(html).replace(/'/g, "%27").replace(/"/g, "%22");
+      const iframeCode = `<iframe src=\"data:text/html;charset=utf-8,${encoded}\" width=\"100%\" height=\"500px\"></iframe>`;
+      document.getElementById('iframeCode').value = iframeCode;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>
