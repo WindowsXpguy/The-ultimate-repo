@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>中国HTML启动器 😈</title>
+  <style>
+    body {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      text-align: center;
+      padding: 20px;
+    }
+    textarea {
+      width: 90%;
+      height: 200px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+      margin-top: 20px;
+    }
+    input[type="file"] {
+      margin-top: 15px;
+      color: #0f0;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 30px;
+      font-size: 18px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🇨🇳 HTML 启动器 😈</h1>
+  <p>粘贴 HTML 或 上传 .html 文件</p>
+  
+  <textarea id="htmlInput" placeholder="粘贴HTML代码..."></textarea><br>
+  <input type="file" id="fileInput" accept=".html,.htm"><br>
+  <button onclick="launch()">🚀 启动 about:blank 页面</button>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById('htmlInput').value = e.target.result;
+      };
+      reader.readAsText(file);
+    });
+
+    function launch() {
+      const code = document.getElementById("htmlInput").value.trim();
+      if (!code) return alert("❌ 请输入或上传 HTML 内容");
+
+      const tab = window.open("about:blank", "_blank");
+      if (tab) {
+        tab.document.write(code);
+        tab.document.close();
+      } else {
+        alert("⚠️ 被拦截了！请启用弹窗再试。");
+      }
+    }
+  </script>
+</body>
+</html>
