@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Encryptor</title>
+  <style>
+    body { background: #000; color: #0f0; font-family: monospace; padding: 30px; text-align: center; }
+    input, button { padding: 10px; margin: 10px; width: 90%; background: #111; color: #0f0; border: 1px solid #0f0; }
+  </style>
+</head>
+<body>
+  <h1>🔐 文件加密工具</h1>
+  <input type="file" id="fileInput"><br>
+  <input type="password" id="password" placeholder="输入密码"><br>
+  <button onclick="encryptFile()">加密文件并下载</button>
+
+  <script>
+    async function encryptFile() {
+      const fileInput = document.getElementById("fileInput");
+      const password = document.getElementById("password").value;
+      if (!fileInput.files.length || !password) return alert("请选择文件并输入密码");
+
+      const file = fileInput.files[0];
+      const arrayBuffer = await file.arrayBuffer();
+      const enc = new TextEncoder();
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+
+      const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+      const key = await crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt"]
+      );
+
+      const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, arrayBuffer);
+      const blob = new Blob([
+        new Uint8Array(salt),
+        new Uint8Array(iv),
+        new Uint8Array(encrypted)
+      ]);
+
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = file.name + ".locked";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>
