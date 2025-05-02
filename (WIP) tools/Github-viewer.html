@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>🇨🇳 GitHub Repo 浏览器</title>
+  <style>
+    body { background: #000; color: #0f0; font-family: monospace; padding: 20px; }
+    ul { list-style: none; padding-left: 20px; }
+    li { margin: 5px 0; }
+    a { color: #0ff; text-decoration: none; }
+    pre { background: #111; padding: 10px; border: 1px solid #0f0; white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <h1>🗂️ GitHub 文件查看器</h1>
+  <div id="fileList">🔄 正在加载文件列表...</div>
+  <pre id="fileContent"></pre>
+
+  <script>
+    const user = "WindowsXpguy";
+    const repo = "The-ultimate-repo";
+    const branch = "main";
+    const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/`;
+
+    async function loadRepo(path = "") {
+      document.getElementById("fileList").innerHTML = "🔄 加载中...";
+      try {
+        const res = await fetch(apiUrl + path);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("错误数据");
+
+        let html = "<ul>";
+        if (path) {
+          const up = path.split("/").slice(0, -1).join("/");
+          html += `<li><a href="#" onclick="loadRepo('${up}')">🔙 返回上层</a></li>`;
+        }
+
+        for (const item of data) {
+          if (item.type === "dir") {
+            html += `<li>📁 <a href="#" onclick="loadRepo('${item.path}')">${item.name}</a></li>`;
+          } else if (item.type === "file") {
+            html += `<li>📄 <a href="#" onclick="loadFile('${item.download_url}')">${item.name}</a></li>`;
+          }
+        }
+        html += "</ul>";
+        document.getElementById("fileList").innerHTML = html;
+      } catch (e) {
+        document.getElementById("fileList").innerHTML = "❌ 加载失败或被拦截";
+      }
+    }
+
+    async function loadFile(url) {
+      try {
+        const res = await fetch(url);
+        const content = await res.text();
+        document.getElementById("fileContent").textContent = content;
+      } catch {
+        document.getElementById("fileContent").textContent = "❌ 无法加载文件内容";
+      }
+    }
+
+    loadRepo();
+  </script>
+</body>
+</html>
