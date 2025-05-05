@@ -1,2 +1,2 @@
 # Mega-links
-So since I don't wanna just said mega links because police and some other people are bitches that will report it so instead check out this google form "https://docs.google.com/forms/d/e/1FAIpQLSeNIN8dz95uyDCXrFs4MEHxQEUEVq3lgCOGUMchRE8pwPopqQ/viewform?usp=sharing"
+Since I don't wanna just send mega links because it could get reported instead check out this google form "https://docs.google.com/forms/d/e/1FAIpQLSfiKGnl-DWk7mo5F_L91xoEfoAR89Xi6_-ZA1tnhsSp8UDrGw/viewform?usp=dialog"
