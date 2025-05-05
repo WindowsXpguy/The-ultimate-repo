@@ -11,10 +11,11 @@ Some of this was written by hand. Some of it was slapped together by AI. Doesn�
 - Web-based proxies (HTML/JS based)
 - Localhost runners (Node/Go)
 - Lightweight stealth loaders
+- Data urls
 
 ### 🎮 Games
 - HTML5 browser games
-- Emulator loaders (maybe ROMs (if not for legal reasons on github) — figure that part out)
+- Emulator loaders (maybe ROMs (if not for legal reasons on github) — figure that part out or go to the Mega folder)
 
 ### 🧠 Tutorials
 - VPN setup for locked-down systems
@@ -24,7 +25,7 @@ Some of this was written by hand. Some of it was slapped together by AI. Doesn�
 
 ### 💣 Mega Links
 > Real tools, archived stuff, and “questionable” content live off-site.  
-Check `launchers/mega-links.txt` for links and access info.  
+Check `Mega-links/mega-links.md` for links and access info.  
 Some are encrypted. If you don’t know how to open it — you’re not ready.
 
 ---
@@ -32,7 +33,7 @@ Some are encrypted. If you don’t know how to open it — you’re not ready.
 ## ⚠️ Heads Up
 
 - Don’t act surprised if you get blocked or caught.
-- This isn’t a hacking repo — it’s educational, experimental, and half-broken by design.
+- This "isn’t" a hacking repo — it’s "educational", experimental, and half-broken by design.
 - AI wrote some scripts. We test and tweak them, but no promises.
 - You break it? You fix it.
 
